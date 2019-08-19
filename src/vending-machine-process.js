@@ -6,6 +6,7 @@ class VendingMachine {
 
   dispenseItem(selection, changeInput) {
     const item = this._itemInventory.items;
+    const change = this._changeInventory.change;
     if (!item[selection])
       throw new Error("Sorry, this is not a valid selection");
     if (item[selection].price === changeInput) {
@@ -18,14 +19,26 @@ class VendingMachine {
     let changeRequired = item[selection].price - changeInput;
     if (item[selection].price > changeInput) {
       throw new Error(
-        "Sorry, you must put $" + changeRequired + " more to purchase"
+        "Sorry, you must put $" +
+          changeRequired +
+          " more to purchase" +
+          " a " +
+          item[selection].name
       );
     } else if (item[selection].price < changeInput) {
       let changeReturned = changeInput - item[selection].price;
-      console.log(changeReturned);
+
+      if ((changeReturned * 100) % 25 === 0) {
+        return (
+          "You bought a " +
+          item[selection].name +
+          ", and get 1 " +
+          change.quarter.name +
+          " back in change"
+        );
+      }
     }
   }
-
   restockItem(restockItem) {
     const item = this._itemInventory.items;
     if (!item[restockItem]) throw new Error("This item does not exist");
@@ -42,16 +55,27 @@ class VendingMachine {
     return "Inventory count is now full (" + itemRestock + ") for this item";
   }
 
-  //   restockChangeCount(restockChange) {
-  //     const change = this._changeInventory.change;
-  //     const possibleRestock =
-  //       change[restockChange].maxQuantity - change[restockChange].currentQuantity;
-  //     const changeRestock =
-  //       change[restockChange].currentQuantity + possibleRestock;
-  //     console.log(changeRestock);
-  //     return (
-  //       "Inventory count is now full (" + changeRestock + ") for this change"
-  //     );
-  //   }
+  resupplyChange(restockChange) {
+    const change = this._changeInventory.change;
+    //return change[restockChange];
+    const possibleRestock =
+      change[restockChange].maxQuantity - change[restockChange].currentQuantity;
+    const changeRestock =
+      change[restockChange].currentQuantity + possibleRestock;
+    if (
+      change[restockChange].currentQuantity ===
+      change[restockChange].maxQuantity
+    ) {
+      throw new Error(
+        "Inventory count is already full (" +
+          change[restockChange].maxQuantity +
+          ") for " +
+          change[restockChange].name
+      );
+    }
+    return (
+      "Inventory count is now full (" + changeRestock + ") for this change"
+    );
+  }
 }
 module.exports = VendingMachine;

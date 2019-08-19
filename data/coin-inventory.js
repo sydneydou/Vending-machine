@@ -12,16 +12,16 @@ const changeInventory = {
       currentQuantity: 20,
       value: 0.1
     },
-    "25c": {
+    quarter: {
       name: "quarter",
       maxQuantity: 25,
-      currentQuantity: 20,
+      currentQuantity: 25,
       value: 0.25
     },
     "1 dollar": {
       name: "loonie",
       maxQuantity: 25,
-      currentQuantity: 10,
+      currentQuantity: 25,
       value: 1.0
     },
     "2 dollars": {
@@ -29,18 +29,6 @@ const changeInventory = {
       maxQuantity: 10,
       currentQuantity: 2,
       value: 2.0
-    },
-    "5 dollars": {
-      name: "$5",
-      maxQuantity: 2,
-      currentQuantity: 1,
-      value: 5.0
-    },
-    "10 dollars": {
-      name: "$10",
-      maxQuantity: 2,
-      currentQuantity: 1,
-      value: 10.0
     }
   }
 };

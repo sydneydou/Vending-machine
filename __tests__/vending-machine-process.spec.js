@@ -3,14 +3,6 @@ const itemInventory = require("../data/vending-machine-inventory");
 const changeInventory = require("../data/coin-inventory");
 const vm = new VendingMachine(itemInventory, changeInventory);
 
-//create 10 methods
-//TODO: print vending machine inventory
-//TODO: refill vending machine inventory
-//TODO: resupply vending machine change
-//TODO: dispense inventory based on payment
-//TODO: return change as coins
-
-// NEED ONE MORE TEST
 describe("Vending Machine:", () => {
   describe("Purchase Item:", () => {
     //when item is available and perfect input
@@ -29,19 +21,23 @@ describe("Vending Machine:", () => {
     });
     // //when there is insufficient funds to buy the item
     describe("When selection = 'A3', changeInput='2.5'", () => {
-      it("should throw an error 'Sorry, you must put 0.25 more to purchase'", () => {
+      it("should throw an error 'Sorry, you must put $0.25 more to purchase a Cookies n Cream Bar'", () => {
         expect(() => vm.dispenseItem("A3", 2.5)).toThrow(
-          "Sorry, you must put $0.25 more to purchase"
+          "Sorry, you must put $0.25 more to purchase a Cookies n Cream Bar"
         );
       });
     });
 
     //when there is change returned
-    // describe("When selection = 'A3', changeInput='3'", () => {
-    //     it("should return item name and change back", () => {
-    //       expect(() => vm.dispenseItem("A3", 3)).toEqual("You bought a Cookies n Cream Bar, and get 1 quarter back in change");
-    //     });
-    //   });
+    describe("When selection = 'A3', changeInput='3'", () => {
+      it("should return item name and change back", () => {
+        expect(vm.dispenseItem("A3", 3)).toEqual(
+          "You bought a Cookies n Cream Bar, and get 1 quarter back in change"
+        );
+      });
+    });
+
+    //when there is insufficient change
 
     //when incorrect code is inputted(item doesnt exist)
     describe("When selection = 'A6'", () => {
@@ -77,14 +73,22 @@ describe("Vending Machine:", () => {
       });
     });
   });
-  //   describe("Resupply Inventory Change:", () => {
-  //     //     //when change needs restocking
-  //     describe("When restocking 5c ", () => {
-  //       it("should return new current quantity of 5c", () => {
-  //         expect(() => vm.restockChangeCount("5c")).toEqual(
-  //           "Inventory count is now full (50) for this change"
-  //         );
-  //       });
-  //     });
-  //     //     //when change already has max inventory
+  describe("Resupply Inventory Change:", () => {
+    //     //     //when change needs restocking
+    describe("When restocking 5c ", () => {
+      it("should return 'Inventory count is now full (50) for this change'", () => {
+        expect(vm.resupplyChange("5c")).toEqual(
+          "Inventory count is now full (50) for this change"
+        );
+      });
+    });
+    //     //     //when change already has max inventory
+    describe("When restocking 1 dollar ", () => {
+      it("should throw an error 'Inventory count is already full (25) for loonie'", () => {
+        expect(() => vm.resupplyChange("1 dollar")).toThrow(
+          "Inventory count is already full (25) for loonie"
+        );
+      });
+    });
+  });
 });
