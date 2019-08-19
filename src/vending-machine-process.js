@@ -27,7 +27,6 @@ class VendingMachine {
       );
     } else if (item[selection].price < changeInput) {
       let changeReturned = changeInput - item[selection].price;
-
       if ((changeReturned * 100) % 25 === 0) {
         return (
           "You bought a " +
@@ -57,7 +56,6 @@ class VendingMachine {
 
   resupplyChange(restockChange) {
     const change = this._changeInventory.change;
-    //return change[restockChange];
     const possibleRestock =
       change[restockChange].maxQuantity - change[restockChange].currentQuantity;
     const changeRestock =
